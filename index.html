@@ -51,26 +51,42 @@
         .msg-sub {
             font-size: 0.85rem;
             opacity: 0.7;
-            margin-top: 10px;
+            margin-top: 15px;
+        }
+        #timer {
+            font-weight: 900;
+            color: #78a9cc;
+            font-size: 1.2rem;
         }
     </style>
-    <script>
-        setTimeout(function() {
-            window.location.href = "https://hamuzon.github.io/binary-decimal-converter/";
-        }, 3000);
-    </script>
 </head>
 <body>
     <div class="card">
         <div class="loader"></div>
         <p>
             <strong>変換ツールへ移動します</strong><br>
-            Transferring to Converter
+            Redirecting in <span id="timer">3</span> seconds
         </p>
         <p class="msg-sub">
-            自動で切り替わらない場合は<br>
-            <a href="https://hamuzon.github.io/binary-decimal-converter/">こちらをクリック</a>
+            自動で切り替わらない場合はこちらをクリック<br>
+            <a href="https://hamuzon.github.io/binary-decimal-converter/">
+                Click here if not redirected
+            </a>
         </p>
     </div>
+    <script>
+        (function() {
+            let timeLeft = 3;
+            const timerDisplay = document.getElementById('timer');
+            const countdown = setInterval(function() {
+                timeLeft--;
+                if (timerDisplay) timerDisplay.textContent = timeLeft;
+                if (timeLeft <= 0) {
+                    clearInterval(countdown);
+                    window.location.href = "https://hamuzon.github.io/binary-decimal-converter/";
+                }
+            }, 1000);
+        })();
+    </script>
 </body>
 </html>
