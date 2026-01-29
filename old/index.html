@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <meta http-equiv="refresh" content="3;url=https://hamuzon.github.io/binary-decimal-converter/old/">
+    <style>
+        body {
+            font-family: 'M PLUS Rounded 1c', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #ebf1f5;
+            color: #5a6d7d;
+            text-align: center;
+        }
+        .card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(120, 169, 204, 0.2);
+            max-width: 90%;
+            border: 1px solid #cedde8;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #78a9cc;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        #timer-box {
+            font-size: 1.2rem;
+            font-weight: 900;
+            color: #78a9cc;
+            margin: 10px 0;
+        }
+        a {
+            color: #5c93bb;
+            text-decoration: none;
+            font-weight: 900;
+            border-bottom: 2px solid #5c93bb;
+            transition: opacity 0.2s;
+        }
+        a:hover {
+            opacity: 0.7;
+        }
+        .msg-sub {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="loader"></div>
+        <p><strong>変換ツールへ移動します</strong></p>
+        <div id="timer-box">
+            あと <span id="seconds">3</span> 秒 / <span id="seconds-en">3</span>s
+        </div>
+        <p class="msg-sub">
+            自動で切り替わらない場合はこちら<br>
+            <a href="https://hamuzon.github.io/binary-decimal-converter/old/">Click here if not redirected</a>
+        </p>
+    </div>
+
+    <script>
+        (function() {
+            let count = 3;
+            const secJa = document.getElementById('seconds');
+            const secEn = document.getElementById('seconds-en');
+            
+            const timer = setInterval(() => {
+                count--;
+                if (count >= 0) {
+                    secJa.textContent = count;
+                    secEn.textContent = count;
+                }
+                if (count <= 0) {
+                    clearInterval(timer);
+                    window.location.href = "https://hamuzon.github.io/binary-decimal-converter/old/";
+                }
+            }, 1000);
+        })();
+    </script>
+</body>
+</html>
