@@ -76,14 +76,39 @@
     <script>
         (function () {
             const DEFAULT_REDIRECT = "https://hamuzon.github.io/binary-decimal-converter/";
-            const HOST_REDIRECTS = {
-                "bin2dec-redirect-jp.pages.dev": "https://bin2dec.pages.dev/",
-                "binary-decimal-converter.hamusata.f5.si": DEFAULT_REDIRECT,
-                "binary-decimal-converter.hamuzon-jp.f5.si": DEFAULT_REDIRECT,
-                "bin2dec.hamuzon-jp.f5.si": DEFAULT_REDIRECT
+            const HOST_REDIRECTS = [
+                {
+                    domain: "bin2dec-redirect-jp.pages.dev",
+                    redirectUrl: "https://bin2dec.pages.dev/"
+                },
+                {
+                    domain: "binary-decimal-converter.hamusata.f5.si",
+                    redirectUrl: DEFAULT_REDIRECT
+                },
+                {
+                    domain: "binary-decimal-converter.hamuzon-jp.f5.si",
+                    redirectUrl: DEFAULT_REDIRECT
+                },
+                {
+                    domain: "bin2dec.hamuzon-jp.f5.si",
+                    redirectUrl: DEFAULT_REDIRECT
+                }
+            ];
+
+            const normalizeHostname = (hostname) => hostname.toLowerCase().replace(/\.$/, "");
+            const isSameDomainOrSubdomain = (hostname, domain) => (
+                hostname === domain || hostname.endsWith(`.${domain}`)
+            );
+            const findRedirectBaseUrl = (hostname) => {
+                const normalizedHostname = normalizeHostname(hostname);
+                const redirect = HOST_REDIRECTS.find(({ domain }) => (
+                    isSameDomainOrSubdomain(normalizedHostname, domain)
+                ));
+
+                return redirect ? redirect.redirectUrl : DEFAULT_REDIRECT;
             };
 
-            const baseUrl = HOST_REDIRECTS[window.location.hostname] || DEFAULT_REDIRECT;
+            const baseUrl = findRedirectBaseUrl(window.location.hostname);
             const redirectPath = document.body.dataset.redirectPath || "";
             const targetUrl = new URL(redirectPath, baseUrl).href;
 
