@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Redirecting...</title>
-    <meta http-equiv="refresh" content="3;url=https://hamuzon.github.io/binary-decimal-converter/old/">
     <style>
         body {
             font-family: 'M PLUS Rounded 1c', sans-serif;
@@ -61,7 +60,7 @@
         }
     </style>
 </head>
-<body>
+<body data-redirect-path="old/">
     <div class="card">
         <div class="loader"></div>
         <p><strong>変換ツールへ移動します</strong></p>
@@ -70,26 +69,46 @@
         </div>
         <p class="msg-sub">
             自動で切り替わらない場合はこちら<br>
-            <a href="https://hamuzon.github.io/binary-decimal-converter/old/">Click here if not redirected</a>
+            <a id="redirect-link" href="https://bin2dec.hamusata.f5.si/old/">Click here if not redirected</a>
         </p>
     </div>
 
     <script>
-        (function() {
+        (function () {
+            const HOST_REDIRECTS = {
+                "binary-decimal-converter.hamusata.f5.si": "https://bin2dec.hamusata.f5.si/",
+                "binary-decimal-converter.hamuzon-jp.f5.si": "https://hamuzon-jp.f5.si/bin2dec/",
+                "bin2dec.hamuzon-jp.f5.si": "https://hamuzon-jp.f5.si/bin2dec/"
+            };
+            const FALLBACK_REDIRECT = "https://bin2dec.hamusata.f5.si/";
+
+            const baseUrl = HOST_REDIRECTS[window.location.hostname] || FALLBACK_REDIRECT;
+            const redirectPath = document.body.dataset.redirectPath || "";
+            const targetUrl = new URL(redirectPath, baseUrl).href;
+
+            const redirectLink = document.getElementById("redirect-link");
+            if (redirectLink) {
+                redirectLink.href = targetUrl;
+            }
+
             let count = 3;
+
             const secJa = document.getElementById('seconds');
             const secEn = document.getElementById('seconds-en');
-            
+
             const timer = setInterval(() => {
                 count--;
+
                 if (count >= 0) {
                     secJa.textContent = count;
                     secEn.textContent = count;
                 }
+
                 if (count <= 0) {
                     clearInterval(timer);
-                    window.location.href = "https://hamuzon.github.io/binary-decimal-converter/old/";
+                    window.location.href = targetUrl;
                 }
+
             }, 1000);
         })();
     </script>
