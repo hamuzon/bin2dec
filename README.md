@@ -7,6 +7,7 @@
 ### 転送先
 * `https://binary-decimal-converter.hamusata.f5.si/` → `https://bin2dec.hamusata.f5.si/`
 * `https://binary-decimal-converter.hamuzon-jp.f5.si/` → `https://hamuzon-jp.f5.si/bin2dec/`
+* `https://bin2dec.hamuzon-jp.f5.si/` → `https://hamuzon-jp.f5.si/bin2dec/`
 
 ### 転送先（メインプロジェクト）
 * **ツールURL**: [https://bin2dec.hamusata.f5.si/](https://bin2dec.hamusata.f5.si/)
