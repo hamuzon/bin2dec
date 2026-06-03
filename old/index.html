@@ -110,16 +110,39 @@
 
             const baseUrl = findRedirectBaseUrl(window.location.hostname);
             const browserPath = window.location.pathname + window.location.search + window.location.hash;
-            const is404Page = browserPath === "/404.html" || browserPath.endsWith("/404.html") || browserPath === "/404" || browserPath.endsWith("/404");
-            const redirectPath = document.body.dataset.redirectPath || (browserPath === "/" || browserPath === "/index.html" || is404Page ? "" : browserPath);
+            const normalizedPath = window.location.pathname.replace(/\/+$/, "") || "/";
+            const rootRedirectPaths = new Set([
+                "/",
+                "/index.html",
+                "/404",
+                "/404.html",
+                "/LICENSE",
+                "/LICENSE.md",
+                "/README",
+                "/README.md",
+            ]);
+            const hasRedirectPath = document.body.hasAttribute("data-redirect-path");
+            const redirectPath = hasRedirectPath
+                ? document.body.dataset.redirectPath
+                : (rootRedirectPaths.has(normalizedPath) ? "" : browserPath);
             const targetUrl = new URL(redirectPath, baseUrl).href;
+
+            const isLocalTesting = () => (
+                window.location.protocol === "file:" ||
+                /^(localhost|127\.0\.0\.1|\[::1\])$/.test(window.location.hostname)
+            );
 
             const redirectLink = document.getElementById("redirect-link");
             if (redirectLink) {
                 redirectLink.href = targetUrl;
+                if (isLocalTesting()) {
+                    redirectLink.target = "_blank";
+                    redirectLink.rel = "noopener noreferrer";
+                }
             }
 
             let count = 3;
+            const autoRedirect = !isLocalTesting();
 
             const secJa = document.getElementById('seconds');
             const secEn = document.getElementById('seconds-en');
@@ -134,7 +157,9 @@
 
                 if (count <= 0) {
                     clearInterval(timer);
-                    window.location.href = targetUrl;
+                    if (autoRedirect) {
+                        window.location.href = targetUrl;
+                    }
                 }
 
             }, 1000);
