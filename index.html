@@ -129,7 +129,7 @@
 
             const baseUrl = findRedirectBaseUrl(window.location.hostname);
             const browserPath = window.location.pathname + window.location.search + window.location.hash;
-            const is404Page = browserPath === "/404.html" || browserPath.endsWith("/404.html");
+            const is404Page = browserPath === "/404.html" || browserPath.endsWith("/404.html") || browserPath === "/404" || browserPath.endsWith("/404");
             const redirectPath = document.body.dataset.redirectPath || (browserPath === "/" || browserPath === "/index.html" || is404Page ? "" : browserPath);
             const targetUrl = new URL(redirectPath, baseUrl).href;
 
