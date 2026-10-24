@@ -1,3 +1,4 @@
+
 # Simple workflow for deploying static content to GitHub Pages
 name: Deploy static content to Pages
 
@@ -33,6 +34,28 @@ jobs:
         uses: actions/checkout@v7
       - name: Setup Pages
         uses: actions/configure-pages@v6
+      - name: Inject Google Analytics
+        shell: bash
+        run: |
+          # Google Analyticsを全てのHTMLファイルの<head>直後に挿入
+          find . -maxdepth 1 -type f -name "*.html" ! -name "google*.html" -print0 |
+          while IFS= read -r -d '' file; do
+            if grep -q 'G-F8HVYVW05H' "$file"; then
+              echo "Google Analytics already exists: $file"
+              continue
+            fi
+
+            sed -i '/<head[^>]*>/a\
+          <script async src="https://www.googletagmanager.com/gtag/js?id=G-F8HVYVW05H"></script>\
+          <script>\
+          window.dataLayer = window.dataLayer || [];\
+          function gtag(){dataLayer.push(arguments);}\
+          gtag("js", new Date());\
+          gtag("config", "G-F8HVYVW05H");\
+          </script>' "$file"
+
+            echo "Updated: $file"
+          done
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
